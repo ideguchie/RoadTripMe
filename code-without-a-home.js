@@ -2,6 +2,12 @@
 //reference Rithvik
 
 //FROM INDIVIDUAL CITY
+var title = "";
+var image = "";
+var price = "";
+var detail = "";
+var weather = "";
+var wDescript = "";
 var start = "";//get from input; form YYYY-MM-DD
 var end = "";//get from input; form YYYY-MM-DD
 var location = "";//get from input; CITY

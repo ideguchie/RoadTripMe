@@ -1,4 +1,15 @@
-mainModule.controller('defaultController', function($scope, $routeParams, defaultFactory, $http) {
+mainModule.controller('defaultController', function($scope, $routeParams, defaultFactory, $http, $q) {
+	var title = "";
+	var image = "";
+	var price = "";
+	var detail = "";
+	var weather = "";
+	var wDescript = "";
+	var id = "";
+	var lat = "";
+	var lon = "";
+	var activity = [];
+	$scope.result = [];
 
 	var getAllUsers = function(){
 		// console.log("Controller - getAllUsers");
@@ -9,7 +20,72 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 		});
 	}
 
-	getAllUsers();
+	var getTrip = function() {
+
+		defaultFactory.getActivity()
+			.then(function(response) {
+				console.log(response);
+
+				for (var i = 0; i < 10; i++) {
+					var obj = {};
+					activity = response.data.activities[i];
+					// id = returned_data_from_server.activities[0].id;
+					// console.log(id);
+
+					obj.id = activity.id;
+					obj.title = activity.title;
+					obj.image = activity.imageUrl;
+					obj.price = activity.fromPrice;
+					obj.detail = '';
+
+					$scope.result.push(obj);
+				}
+
+				// Define the initial promise
+				var sequence = $q.defer();
+				sequence.resolve();
+				sequence = sequence.promise;
+
+				angular.forEach($scope.result, function(val,key){
+				    sequence = sequence.then(function() {
+				        return getTripDetails(val);
+				    });
+				});
+
+				console.log($scope.result);
+			});
+	}
+
+	var getTripDetails = function(val) {
+		// console.log("trip details", id);
+		defaultFactory.getActivityDetails(val.id)
+			.then(function(response_activity) {
+				var index = $scope.result.indexOf(val);
+				$scope.result[index].detail = response_activity.data.metaDescription;
+				$scope.result[index].latlng = response_activity.data.latLng.split(",");
+				// console.log($scope.result[index].latlng);
+				getWeather($scope.result[index]);
+			});
+	}
+
+	var getWeather = function(val) {
+		// console.log(val);
+		var input = {}
+		input.lon = val.latlng[1];
+		input.lat = val.latlng[0];
+
+		defaultFactory.getWeather(input)
+		.then(function (response_weather) {
+			var index = $scope.result.indexOf(val);
+			// console.log(response_weather);
+			$scope.result[index].weather = response_weather.data.weather[0].main;
+			$scope.result[index].wDescript = response_weather.data.weather[0].description;
+		});
+	}
+
+	getTrip();
+
+	// getAllUsers();
 
 	$scope.test = 'abc';
 

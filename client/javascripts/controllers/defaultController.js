@@ -10,6 +10,7 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	var lon = "";
 	var activity = [];
 	$scope.result = [];
+	$scope.cities = [];
 
 	var getAllUsers = function(){
 		// console.log("Controller - getAllUsers");
@@ -89,7 +90,21 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 
 	$scope.test = 'abc';
 
-	var getRoute = function(directionsService, directionsDisplay) {
+	var getRouteData = function(arr) {
+		// Define the initial promise
+		var sequence2 = $q.defer();
+		sequence2.resolve();
+		sequence2 = sequence2.promise;
+
+		console.log(arr);
+		angular.forEach(arr, function(val,key){
+				sequence2 = sequence2.then(function() {
+						return getCities(val);
+				});
+		});
+	}
+
+	var getRoute = function() {
 		console.log("Controller - getRoute");
 
 	  var directionsService = new google.maps.DirectionsService;
@@ -103,22 +118,22 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	    if (status === google.maps.DirectionsStatus.OK) {
 	      directionsDisplay.setDirections(response);
 				// console.log(response.routes[0].overview_path);
-				getCities(response.routes[0].overview_path);
+				getRouteData(response.routes[0].overview_path);
 	    } else {
 	      window.alert('Directions request failed due to ' + status);
 	    }
 	  });
 	}
-	getRoute();
 
 	var getCities = function(latLongs) {
-		console.log("Controller - getCities");
-		var cities = [];
+		// console.log("Controller - getCities");
+		// var cities = [];
 		var addComps = [];
+		// console.log('GET CITIES', latLongs);
 
-		for(var i = 0; i < latLongs.length; i += 20) {
-			var pointLat = latLongs[i].lat();
-			var pointLng = latLongs[i].lng();
+		// for(var i = 0; i < latLongs.length; i += 20) {
+			var pointLat = latLongs.lat();
+			var pointLng = latLongs.lng();
 			$http({
 			  method: 'GET',
 			  url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pointLat + "," + pointLng + "&key=AIzaSyDdevJaZwheD-E6s1g0r-66f147zHLvYp4"
@@ -138,14 +153,18 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 						}
 					}
 					if (hasBoth) {
-						// console.log(cityString);
-						cities.push(cityString);
+						// console.log("added", cityString);
+						$scope.cities.push(cityString);
+						// console.log($scope.cities);
 					}
+					console.log($scope.cities);
 			  }, function errorCallback(response) {
 					console.log("failed to get cities");
 			  });
-				console.log(cities);
-		}
+		// }
+		// console.log("Cities array: ");
 
 	}
+
+	getRoute();
 });

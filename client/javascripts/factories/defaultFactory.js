@@ -13,6 +13,7 @@ mainModule.factory('defaultFactory', function($http) {
 		var lat = "";
 		var lon = "";
 		var active = [];
+		var obj = {};
 		// console.log("Factory - getAllUsers");
 		// console.log("Executing $http.get getAllUsers");
 
@@ -44,9 +45,9 @@ mainModule.factory('defaultFactory', function($http) {
 						wDescript = returned_data_from_server2.weather[0].description;
 
 					});
-
+					console.log(title + "\n" +image + "\n" +price + "\n" +detail + "\n" +weather + "\n" +wDescript + "\n");
 				});
-				console.log(title + "\n" +image + "\n" +price + "\n" +detail + "\n" +weather + "\n" +wDescript + "\n");
+
 			}
 		});
 	}

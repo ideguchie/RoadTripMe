@@ -3,8 +3,22 @@
 	<script type="text/javascript" src="javascripts/externals/angular.js"></script>
 	<script type="text/javascript" src="javascripts/externals/angular-route.js"></script>
 	<script type="text/javascript" src="javascripts/app.js"></script>
+	<!-- Latest compiled and minified JavaScript -->
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+
 	<script type="text/javascript" src="javascripts/controllers/defaultController.js"></script>
+	<script type="text/javascript" src="javascripts/controllers/activityController.js"></script>
+	<script type="text/javascript" src="javascripts/controllers/mapController.js"></script>
+	<script type="text/javascript" src="javascripts/controllers/searchController.js"></script>
+
 	<script type="text/javascript" src="javascripts/factories/defaultFactory.js"></script>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	
+
 
 	<title>INDEX</title>
 </head>
@@ -20,6 +34,17 @@
 			<div ng-view></div>
 		</div>
 
+		<div ng-controller="searchController">
+			This is for the search UI
+		</div>
+
+		<div ng-controller="activityController">
+			This is for the activity UI
+		</div>
+
+		<div ng-controller="mapController">
+			This is for the Map UI
+		</div>
 	</div>
 </body>
 </html>

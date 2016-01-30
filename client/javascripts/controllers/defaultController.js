@@ -96,8 +96,8 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	  var directionsDisplay = new google.maps.DirectionsRenderer;
 
 	  directionsService.route({
-	    origin: "seattle, wa",
-	    destination: "portland, or",
+	    origin: "seattle, wa, usa",
+	    destination: "portland, or, usa",
 	    travelMode: google.maps.TravelMode.DRIVING
 	  }, function(response, status) {
 	    if (status === google.maps.DirectionsStatus.OK) {
@@ -114,12 +114,35 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	var getCities = function(latLongs) {
 		console.log("Controller - getCities");
 		var cities = [];
-		for(var i = 0; i < latLongs.length; i++) {
-			$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latLongs[i].lat() + "," + latLongs[i].lng() + "&key=AIzaSyDdevJaZwheD-E6s1g0r-66f147zHLvYp4").success(function(return_data){
-				cities.push(return_data);
-			});
+		var addComps = [];
+
+		for(var i = 0; i < latLongs.length; i += 20) {
+			var pointLat = latLongs[i].lat();
+			var pointLng = latLongs[i].lng();
+			var cityString = "";
+
+			$http({
+			  method: 'GET',
+			  url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pointLat + "," + pointLng + "&key=AIzaSyDdevJaZwheD-E6s1g0r-66f147zHLvYp4"
+			}).then(function successCallback(response) {
+			    // this callback will be called asynchronously when the response is available
+
+					console.log(response.data);
+
+					// addComps = response.data.results[0].address_components;
+					// for (var j = 0; j < addComps.length; j++) {
+					// 	if(addComps[j].types.indexOf("locality") != -1) {
+					// 		cityString += addComps[j].long_name;
+					// 	}
+					// 	if(addComps[j].types.indexOf("administrative_area_level_1") != -1) {
+					// 		cityString += ", " + addComps[j].short_name;
+					// 	}
+					// }
+
+			  }, function errorCallback(response) {
+					console.log("failed to get cities");
+			  });
 		}
 		console.log(cities);
-		// https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
 	}
 });

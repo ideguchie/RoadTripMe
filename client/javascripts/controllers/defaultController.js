@@ -26,7 +26,7 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	  }, function(response, status) {
 	    if (status === google.maps.DirectionsStatus.OK) {
 	      directionsDisplay.setDirections(response);
-				console.log(response.routes[0].overview_path);
+				// console.log(response.routes[0].overview_path);
 				getCities(response.routes[0].overview_path);
 	    } else {
 	      window.alert('Directions request failed due to ' + status);
@@ -43,30 +43,33 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 		for(var i = 0; i < latLongs.length; i += 20) {
 			var pointLat = latLongs[i].lat();
 			var pointLng = latLongs[i].lng();
-			var cityString = "";
-
 			$http({
 			  method: 'GET',
 			  url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pointLat + "," + pointLng + "&key=AIzaSyDdevJaZwheD-E6s1g0r-66f147zHLvYp4"
 			}).then(function successCallback(response) {
 			    // this callback will be called asynchronously when the response is available
-
-					console.log(response.data);
-
-					// addComps = response.data.results[0].address_components;
-					// for (var j = 0; j < addComps.length; j++) {
-					// 	if(addComps[j].types.indexOf("locality") != -1) {
-					// 		cityString += addComps[j].long_name;
-					// 	}
-					// 	if(addComps[j].types.indexOf("administrative_area_level_1") != -1) {
-					// 		cityString += ", " + addComps[j].short_name;
-					// 	}
-					// }
-
+					// console.log(response.data.results[0].address_components);
+					addComps = response.data.results[0].address_components;
+					var cityString = "";
+					var hasBoth = false;
+					for (var j = 0; j < addComps.length; j++) {
+						if(addComps[j].types.indexOf("locality") !== -1) {
+							cityString += addComps[j].long_name;
+							hasBoth = true;
+						}
+						if(addComps[j].types.indexOf("administrative_area_level_1") !== -1) {
+							cityString += ", " + addComps[j].short_name;
+						}
+					}
+					if (hasBoth) {
+						// console.log(cityString);
+						cities.push(cityString);
+					}
 			  }, function errorCallback(response) {
 					console.log("failed to get cities");
 			  });
+				console.log(cities);
 		}
-		console.log(cities);
+
 	}
 });

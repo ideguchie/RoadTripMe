@@ -1,0 +1,25 @@
+<html>
+<head>
+	<script type="text/javascript" src="javascripts/externals/angular.js"></script>
+	<script type="text/javascript" src="javascripts/externals/angular-route.js"></script>
+	<script type="text/javascript" src="javascripts/app.js"></script>
+	<script type="text/javascript" src="javascripts/controllers/defaultController.js"></script>
+	<script type="text/javascript" src="javascripts/factories/defaultFactory.js"></script>
+
+	<title>INDEX</title>
+</head>
+<body>
+	<h1>Index.HTML</h1>
+	<div ng-app="mainModule">
+		<a href="#/">defualt Partial</a>
+		<a href="#/secondPartial">second default Partial</a>
+
+		<div ng-controller="defaultController">
+			<h3>{{test}}</h3>
+			<li ng-repeat="user in users">{{user.name}}</li>
+			<div ng-view></div>
+		</div>
+
+	</div>
+</body>
+</html>

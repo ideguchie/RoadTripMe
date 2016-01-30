@@ -38,12 +38,18 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	var getCities = function(latLongs) {
 		console.log("Controller - getCities");
 		var cities = [];
+		console.log(latLongs[0].lat());
+		console.log(latLongs[0].lng());
 		for(var i = 0; i < latLongs.length; i++) {
-			$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latLongs[i].lat() + "," + latLongs[i].lng() + "&key=AIzaSyDdevJaZwheD-E6s1g0r-66f147zHLvYp4").success(function(return_data){
+			console.log(latLongs[i].lat());
+			console.log(latLongs[i].lng());
+			var pointLat = latLongs[i].lat();
+			var pointLng = latLongs[i].lng();
+			$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pointLat + "," + pointLng + "&key=AIzaSyDdevJaZwheD-E6s1g0r-66f147zHLvYp4")
+				.success(function(return_data){
 				cities.push(return_data);
 			});
 		}
 		console.log(cities);
-		// https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY
 	}
 });

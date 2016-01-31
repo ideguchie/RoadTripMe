@@ -99,14 +99,12 @@ a {
 .flipper {
 	transition: 0.6s;
 	transform-style: preserve-3d;
-
 	position: relative;
 }
 
 /* hide back of pane during swap */
 .front, .back {
 	backface-visibility: hidden;
-
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -161,6 +159,13 @@ a {
 .submitButtons {
 	background-color:rgba(255,203,0,1.00);
 	border: 1px solid rgba(0,53,95,1.00);
+	margin-left: 15px;
+}
+.dateButton {
+	height: 34px;
+}
+.inputLabel {
+	font-size: 150%;
 }
 	</style>
 
@@ -188,30 +193,30 @@ a {
 					<form>
 						<div class="col-md-6">
 						  <div class="form-group">
-						    <label for="exampleInputEmail1">Start Location</label>
+						    <label class="inputLabel" for="exampleInputEmail1">Start Location</label>
 						    <input type="Text" ng-model="trip.start" class="form-control" id="exampleInputEmail1" placeholder="Start" required>
 						  </div>
 						  <div class="form-group">
-						    <label for="exampleInputPassword1">End Location</label>
+						    <label class="inputLabel" for="exampleInputPassword1">End Location</label>
 						    <input type="text" ng-model="trip.end" class="form-control" id="exampleInputPassword1" placeholder="End" required>
 						  </div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-							    <label for="exampleInputEmail1">Start Date</label>
+							    <label class="inputLabel" for="exampleInputEmail1">Start Date</label>
 							     <p class="input-group">
 					              <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup1.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close"/>
 					              <span class="input-group-btn">
-					                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+					                <button type="button" class="btn btn-default dateButton" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
 					              </span>
 					            </p>
 							  </div>
 							  <div class="form-group">
-							    <label for="exampleInputPassword1">End Date</label>
+							    <label class="inputLabel" for="exampleInputPassword1">End Date</label>
 							    <p class="input-group">
 					              <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
 					              <span class="input-group-btn">
-					                <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+					                <button type="button" class="btn btn-default dateButton" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
 					              </span>
 					            </p>
 							  </div>

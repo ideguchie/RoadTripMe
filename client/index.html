@@ -6,7 +6,9 @@
 	<!-- Latest compiled and minified JavaScript -->
 	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-	<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+	<script type="text/javascript" src="https://code.angularjs.org/1.4.8/i18n/angular-locale_es-es.js"></script>
+	<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<script type="text/javascript" src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
 
 	<script type="text/javascript" src="javascripts/controllers/defaultController.js"></script>
 	<script type="text/javascript" src="javascripts/controllers/activityController.js"></script>
@@ -18,7 +20,47 @@
 
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css">
 
+	<style>
+	body {
+    font: bold 12px Arial;
+     }
+a {
+    text-decoration: none;
+  }
+#map{
+    height:500px; 
+    width:500px; 
+    box-shadow: 3px 3px 10px gray;
+    }
+#repeat{ 
+     display: inline;
+     }
+#country_container { 
+     width: 1000px; 
+     margin: 13px 3px 3px 0px; 
+     text-align: center; 
+     width: 85px; 
+     padding: 4px; 
+     display: inline-table;  
+     color: white; 
+     background-color: black; 
+     font-size: 12px; 
+     cursor: pointer;
+     border: 1px solid black; 
+     border-radius:13px; 
+     }
+#country_container:hover { 
+     box-shadow: 0px 0px 10px black;
+     background-color: gray; 
+     border: 1px solid gray; 
+     cursor: pointer; 
+     }
+#names { 
+     cursor: pointer; 
+       }
+	</style>
 
 
 	<title>INDEX</title>
@@ -36,15 +78,63 @@
 		</div>
 
 		<div ng-controller="searchController">
-			This is for the search UI
+			<div class="container">
+				<form>
+					<div class="col-md-6">
+					  <div class="form-group">
+					    <label for="exampleInputEmail1">Start Location</label>
+					    <input type="Text" class="form-control" id="exampleInputEmail1" placeholder="Email">
+					  </div>
+					  <div class="form-group">
+					    <label for="exampleInputPassword1">End Location</label>
+					    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password">
+					  </div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+						    <label for="exampleInputEmail1">Start Date</label>
+						     <p class="input-group">
+				              <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+				            </p>
+						  </div>
+						  <div class="form-group">
+						    <label for="exampleInputPassword1">End Date</label>
+						    <p class="input-group">
+				              <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+				              <span class="input-group-btn">
+				                <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+				              </span>
+				            </p>
+						  </div>
+					</div>
+				  <button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
 		</div>
 
 		<div ng-controller="activityController">
-			This is for the activity UI
+			<div class="container">
+				<h2>Choose your activity</h2>
+				<flip flip-width="150px" flip-height="150px">
+			      <flip-panel>
+			        <img style="width:150px; height:200px" src="http://upload.wikimedia.org/wikipedia/commons/0/0d/Northern_Flicker-27527.jpg"/>
+			      </flip-panel>
+			      <flip-panel>
+			        <img style="width:100%; height:100%" src="http://upload.wikimedia.org/wikipedia/commons/7/7c/Ostrich%2C_mouth_open.jpg"/>
+			      </flip-panel>
+			    </flip>
+			</div>
 		</div>
 
 		<div ng-controller="mapController">
-			This is for the Map UI
+			 <div id="map"></div>
+			    <div id="repeat" ng-repeat="marker in markers | orderBy : 'title'">
+			         <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)">
+			         <label id="names" >{{marker.title}}</label></a>
+			    </div>
 		</div>
 	</div>
 </body>

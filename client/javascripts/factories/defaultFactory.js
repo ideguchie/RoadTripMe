@@ -3,7 +3,7 @@ mainModule.factory('defaultFactory', function($http) {
 	var users = [];
 
 	factory.getActivity = function() {
-		return $http.get('http://terminal2.expedia.com/x/activities/search?location=London&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9')
+		return $http.get("http://terminal2.expedia.com/x/activities/search?location=London&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9")
 			.then(function(returned_data_from_server){
 				// console.log(returned_data_from_server);
 				return returned_data_from_server;

@@ -211,7 +211,6 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 					console.log("failed to get cities");
 			  });
 				console.log(cities);
-		}
 
 	}
 });

@@ -130,13 +130,34 @@ a {
 	position: absolute;
 	top: 0;
 }
+.header {
+	color: #FFFFFF;
+	/*background-color:hsla(76,100%,39%,0.95);*/
+	background-color:rgba(209,227,211,1.00);
+	height: 50px;
+	border-bottom: 5px solid #E88D0A;
+	margin-bottom: 10px;
+	position: relative;
+}
+.mainTitle {
+	font-family:"Comic Sans MS", cursive, sans-serif;
+	font-weight:bold;
+	color:rgba(210,127,9,1.00);
+	position: absolute;
+	margin: 10px 0 0 10px;
+}
+.headerButton {
+	margin: 6px 10px 0 0;
+}
 	</style>
 
 
 	<title>INDEX</title>
 </head>
 <body>
+
 	<div ng-app="mainModule">
+
 		<div ng-controller="defaultController">
 		</div>
 
@@ -145,7 +166,12 @@ a {
 
 			<div id="searchController" ng-controller="searchController">
 				<div class="container">
-					<h1>Welcome to ReadTripMe</h1>
+					<!-- <h1>Welcome to RoadTripMe</h1> -->
+					<div class="header">
+				    <h3 class="mainTitle">Welcome to RoadTripMe!</h3>
+				    <!-- <button id="saveButton" type="button" class="btn btn-success pull-right headerButton" onclick="testFunction()">Save</button> -->
+				    <button type="button" class="btn btn-warning pull-right headerButton">Reset</button>
+				  </div>
 					<form>
 						<div class="col-md-6">
 						  <div class="form-group">

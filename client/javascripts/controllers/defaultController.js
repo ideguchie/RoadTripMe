@@ -74,7 +74,9 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 			$http({
 			  method: 'GET',
 			  url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pointLat + "," + pointLng + "&key=AIzaSyCI90XMltpo78jUrUkAdiFYdq1JdEGxa7A"
-			}).then(function successCallback(response) {
+			}).then(
+				function successCallback(response) {
+					// console.log(response);
 			    // this callback will be called asynchronously when the response is available
 					// console.log(response.data.results[0].address_components);
 					if(response.data.results[0]) {
@@ -94,7 +96,6 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 							// console.log("added", cityString);
 							$scope.cities.push(cityString);
 							// console.log($scope.cities);
-
 						}
 					}
 			  }, function errorCallback(response) {
@@ -102,8 +103,8 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 			  }
 			);
 		// }
-		// console.log("Cities array: ");
-		// console.log($scope.cities);
+		console.log("Cities array: ");
+		console.log($scope.cities);
 	}
 	getRoute();
 
@@ -203,115 +204,4 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	// }
 	//
 	// getTrip();
-					if (hasBoth) {
-						// console.log(cityString);
-						cities.push(cityString);
-					}
-			  }, function errorCallback(response) {
-					console.log("failed to get cities");
-			  });
-				console.log(cities);
-		}
-
-	}
-});
-
-mainModule.directive("flip", function(){
-
-  function setDim(element, width, height){
-    element.style.width = width;
-    element.style.height = height;
-  }
-
-  var cssString =
-    "<style> \
-    .flip {float: left; overflow: hidden} \
-    .flipBasic { \
-    position: absolute; \
-    -webkit-backface-visibility: hidden; \
-    backface-visibility: hidden; \
-    transition: -webkit-transform .5s; \
-    transition: transform .5s; \
-    -webkit-transform: perspective( 800px ) rotateY( 0deg ); \
-    transform: perspective( 800px ) rotateY( 0deg ); \
-    } \
-    .flipHideBack { \
-    -webkit-transform:  perspective(800px) rotateY( 180deg ); \
-    transform:  perspective(800px) rotateY( 180deg ); \
-    } \
-    .flipHideFront { \
-    -webkit-transform:  perspective(800px) rotateY( -180deg ); \
-    transform:  perspective(800px) rotateY( -180deg ); \
-    } \
-    </style> \
-    ";
-
-  document.head.insertAdjacentHTML("beforeend", cssString);
-
-
-  return {
-    restrict : "E",
-    controller: function($scope, $element, $attrs){
-
-      var self = this;
-      self.front = null,
-      self.back = null;
-
-
-      function showFront(){
-        self.front.removeClass("flipHideFront");
-        self.back.addClass("flipHideBack");
-      }
-
-      function showBack(){
-        self.back.removeClass("flipHideBack");
-        self.front.addClass("flipHideFront");
-      }
-
-      self.init = function(){
-        self.front.addClass("flipBasic");
-        self.back.addClass("flipBasic");
-
-        showFront();
-        self.front.on("click", showBack);
-        self.back.on("click", showFront);
-      }
-
-    },
-
-    link : function(scope,element,attrs, ctrl){
-
-      var width = attrs.flipWidth || "100px",
-        height =  attrs.flipHeight || "100px";
-
-      element.addClass("flip");
-
-      if(ctrl.front && ctrl.back){
-        [element, ctrl.front, ctrl.back].forEach(function(el){
-          setDim(el[0], width, height);
-        });
-        ctrl.init();
-      }
-      else {
-        console.error("FLIP: 2 panels required.");
-      }
-
-    }
-  }
-
-});
-
-mainModule.directive("flipPanel", function(){
-  return {
-    restrict : "E",
-    require : "^flip",
-    //transclusion : true,
-    link: function(scope, element, attrs, flipCtr){
-      if(!flipCtr.front) {flipCtr.front = element;}
-      else if(!flipCtr.back) {flipCtr.back = element;}
-      else {
-        console.error("FLIP: Too many panels.");
-      }
-    }
-  }
 });

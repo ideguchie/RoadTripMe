@@ -337,5 +337,4 @@ mainModule.directive("flipPanel", function(){
       }
     }
   }
->>>>>>> 4a622b827ec5a42cd8078c29ba69e92f28b0321a
 });

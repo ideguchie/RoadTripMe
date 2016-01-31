@@ -117,6 +117,7 @@ a {
 	/* for firefox 31 */
 	transform: rotateY(0deg);
 	color: #FFFFFF;
+	text-shadow: 2px 2px #000000;
 	font-size: 150%;
 }
 
@@ -211,7 +212,11 @@ a {
 			</div>
 			<div id="activityController" class="hidden" ng-controller="activityController" style="overflow-y: auto">
 				<div class="container">
-					<h2>Please Choose your activity</h2>
+					<div class="header">
+				    <h3 class="mainTitle">Please choose your activities:</h3>
+				    <!-- <button id="saveButton" type="button" class="btn btn-success pull-right headerButton" onclick="testFunction()">Save</button> -->
+				    <button type="button" class="btn btn-warning pull-right headerButton">Reset</button>
+				  </div>
 					<div class="flip-container" ontouchstart="this.classList.toggle('hover');" ng-repeat="act in result">
 						<div class="flipper" ng-click="addActivity(act)">
 							<div class="front" style="background-image: url('http://{{ act.image }}')">

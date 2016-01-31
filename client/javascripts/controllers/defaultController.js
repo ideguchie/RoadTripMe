@@ -10,6 +10,7 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	var lon = "";
 	var activity = [];
 	$scope.result = [];
+	$scope.cities = [];
 
 	var getAllUsers = function(){
 		// console.log("Controller - getAllUsers");
@@ -20,9 +21,9 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 		});
 	}
 
-	var getTTD = function() {
+	var getTTD = function(loc) {
 
-		defaultFactory.getActivity()
+		defaultFactory.getActivity(loc)
 			.then(function(response) {
 				// console.log(response);
 
@@ -83,8 +84,10 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 		});
 	}
 
-	getTTD();
-
+	var noob = ["Seattle", "Tacoma", "portland"];
+	for(var y=0; y<noob.size; y++) {
+		getTTD(noob[i]);
+	}
 	// getAllUsers();
 
 	$scope.test = 'abc';
@@ -121,7 +124,7 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 			var pointLng = latLongs[i].lng();
 			$http({
 			  method: 'GET',
-			  url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pointLat + "," + pointLng + "&key=AIzaSyDdevJaZwheD-E6s1g0r-66f147zHLvYp4"
+			  url: "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + pointLat + "," + pointLng + "&key=AIzaSyCI90XMltpo78jUrUkAdiFYdq1JdEGxa7A"
 			}).then(function successCallback(response) {
 			    // this callback will be called asynchronously when the response is available
 					// console.log(response.data.results[0].address_components);

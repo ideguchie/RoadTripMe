@@ -2,8 +2,8 @@ mainModule.factory('defaultFactory', function($http) {
 	var factory = {};
 	var users = [];
 
-	factory.getActivity = function(loc) {
-		return $http.get("http://terminal2.expedia.com/x/activities/search?location="+ loc +"&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9")
+	factory.getActivity = function() {
+		return $http.get("http://terminal2.expedia.com/x/activities/search?location=London&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9")
 			.then(function(returned_data_from_server){
 				// console.log(returned_data_from_server);
 				return returned_data_from_server;

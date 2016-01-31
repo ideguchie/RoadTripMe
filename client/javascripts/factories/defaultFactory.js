@@ -13,13 +13,16 @@ mainModule.factory('defaultFactory', function($http) {
 	factory.getActivityDetails = function(id) {
 		return $http.get("http://terminal2.expedia.com/x/activities/details?activityId="+ id +"&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9")
 			.then(function(returned_data_from_server1){
+				// console.log(returned_data_from_server1);
+				// console.log("1");
 				return returned_data_from_server1;
 			});
 	}
 
 	factory.getWeather = function(data) {
-		return $http.get("http://api.openweathermap.org/data/2.5/weather?lat="+ data.lat +"&lon="+ data.lon +"&APPID=485450c2da837aceda525ff9a4165fe1")
+		return $http.get("http://api.openweathermap.org/data/2.5/weather?q="+ data +"&APPID=485450c2da837aceda525ff9a4165fe1")
 			.then(function(returned_data_from_server2){
+				// console.log(returned_data_from_server2);
 				return returned_data_from_server2;
 			});
 	}

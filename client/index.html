@@ -80,6 +80,8 @@ a {
 /* entire container, keeps perspective */
 .flip-container {
 	perspective: 1000;
+	margin: 5px 5px 5px 5px;
+	border:
 }
 	/* flip the pane when hovered */
 	.flip-container:hover .flipper, .flip-container.hover .flipper {
@@ -87,7 +89,7 @@ a {
 	}
 
 .flip-container, .front, .back {
-	width: 150px;
+	width: 300px;
 	height: 150px;
 	border: 1px solid;
 	background-size: cover;
@@ -136,21 +138,22 @@ a {
 .header {
 	color: #FFFFFF;
 	/*background-color:hsla(76,100%,39%,0.95);*/
-	background-color:rgba(209,227,211,1.00);
+	background-color:rgba(255,203,0,1.00);
 	height: 50px;
-	border-bottom: 5px solid #E88D0A;
+	border-bottom: 5px solid rgba(0,53,95,1.00);
 	margin-bottom: 10px;
 	position: relative;
 }
 .mainTitle {
 	font-family:"Comic Sans MS", cursive, sans-serif;
 	font-weight:bold;
-	color:rgba(210,127,9,1.00);
+	color:rgba(0,53,95,1.00);
 	position: absolute;
 	margin: 10px 0 0 10px;
 }
 .headerButton {
 	margin: 6px 10px 0 0;
+	color: rgba(0,53,95,1.00);
 }
 	</style>
 
@@ -215,7 +218,7 @@ a {
 					<div class="header">
 				    <h3 class="mainTitle">Please choose your activities:</h3>
 				    <!-- <button id="saveButton" type="button" class="btn btn-success pull-right headerButton" onclick="testFunction()">Save</button> -->
-				    <button type="button" class="btn btn-warning pull-right headerButton">Reset</button>
+				    <button type="button" class="btn pull-right headerButton">Reset</button>
 				  </div>
 					<div class="flip-container" ontouchstart="this.classList.toggle('hover');" ng-repeat="act in result">
 						<div class="flipper" ng-click="addActivity(act)">

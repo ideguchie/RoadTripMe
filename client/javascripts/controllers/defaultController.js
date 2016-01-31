@@ -20,7 +20,7 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 		});
 	}
 
-	var getTrip = function() {
+	var getTTD = function() {
 
 		defaultFactory.getActivity()
 			.then(function(response) {
@@ -48,7 +48,7 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 
 				angular.forEach($scope.result, function(val,key){
 				    sequence = sequence.then(function() {
-				        return getTripDetails(val);
+				        return getTTDDetails(val);
 				    });
 				});
 
@@ -56,7 +56,7 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 			});
 	}
 
-	var getTripDetails = function(val) {
+	var getTTDDetails = function(val) {
 		// console.log("trip details", id);
 		defaultFactory.getActivityDetails(val.id)
 			.then(function(response_activity) {
@@ -83,7 +83,7 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 		});
 	}
 
-	getTrip();
+	getTTD();
 
 	// getAllUsers();
 
@@ -151,12 +151,12 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 });
 
 mainModule.directive("flip", function(){
-  
+
   function setDim(element, width, height){
     element.style.width = width;
     element.style.height = height;
   }
-  
+
   var cssString =
     "<style> \
     .flip {float: left; overflow: hidden} \
@@ -179,47 +179,47 @@ mainModule.directive("flip", function(){
     } \
     </style> \
     ";
-    
+
   document.head.insertAdjacentHTML("beforeend", cssString);
-  
-  
+
+
   return {
     restrict : "E",
     controller: function($scope, $element, $attrs){
-      
+
       var self = this;
       self.front = null,
       self.back = null;
-      
-      
+
+
       function showFront(){
         self.front.removeClass("flipHideFront");
         self.back.addClass("flipHideBack");
       }
-      
+
       function showBack(){
         self.back.removeClass("flipHideBack");
         self.front.addClass("flipHideFront");
       }
-      
+
       self.init = function(){
         self.front.addClass("flipBasic");
         self.back.addClass("flipBasic");
-        
+
         showFront();
         self.front.on("click", showBack);
         self.back.on("click", showFront);
       }
-    
+
     },
-    
+
     link : function(scope,element,attrs, ctrl){
-      
+
       var width = attrs.flipWidth || "100px",
         height =  attrs.flipHeight || "100px";
-      
+
       element.addClass("flip");
-      
+
       if(ctrl.front && ctrl.back){
         [element, ctrl.front, ctrl.back].forEach(function(el){
           setDim(el[0], width, height);
@@ -229,10 +229,10 @@ mainModule.directive("flip", function(){
       else {
         console.error("FLIP: 2 panels required.");
       }
-      
+
     }
   }
-  
+
 });
 
 mainModule.directive("flipPanel", function(){

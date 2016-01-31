@@ -2,6 +2,28 @@ mainModule.factory('defaultFactory', function($http) {
 	var factory = {};
 	var users = [];
 
+	factory.getActivity = function(loc) {
+		return $http.get("http://terminal2.expedia.com/x/activities/search?location="+ loc +"&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9")
+			.then(function(returned_data_from_server){
+				// console.log(returned_data_from_server);
+				return returned_data_from_server;
+			});
+	}
+
+	factory.getActivityDetails = function(id) {
+		return $http.get("http://terminal2.expedia.com/x/activities/details?activityId="+ id +"&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9")
+			.then(function(returned_data_from_server1){
+				return returned_data_from_server1;
+			});
+	}
+
+	factory.getWeather = function(data) {
+		return $http.get("http://api.openweathermap.org/data/2.5/weather?lat="+ data.lat +"&lon="+ data.lon +"&APPID=485450c2da837aceda525ff9a4165fe1")
+			.then(function(returned_data_from_server2){
+				return returned_data_from_server2;
+			});
+	}
+
 	factory.getAllUsers = function(callback){
 		var title = "";
 		var image = "";
@@ -12,26 +34,26 @@ mainModule.factory('defaultFactory', function($http) {
 		var id = "";
 		var lat = "";
 		var lon = "";
-		var active = [];
+		var activity = [];
 		var obj = {};
 		// console.log("Factory - getAllUsers");
 		// console.log("Executing $http.get getAllUsers");
 
 		//get TTDs
-		return $http.get('http://terminal2.expedia.com/x/activities/search?location=London&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9')
+		$http.get('http://terminal2.expedia.com/x/activities/search?location=London&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9')
 			.then(function(returned_data_from_server){
 
 			console.log("Server responded with: ", returned_data_from_server);
 			//callback(returned_data_from_server);
 			for (var i = 0; i < 10; i++) {
-				active[i] = returned_data_from_server.data.activities[i];
+				activity = returned_data_from_server.data.activities[i];
 				// id = returned_data_from_server.activities[0].id;
 				// console.log(id);
 
-				id = active[i].id;
-				title = active[i].title;
-				image = active[i].imageUrl;
-				price = active[i].fromPrice;
+				id = activity.id;
+				title = activity.title;
+				image = activity.imageUrl;
+				price = activity.fromPrice;
 				//get TTD description
 				$http.get("http://terminal2.expedia.com/x/activities/details?activityId="+ id +"&apikey=KvTSobGaExiwiazfRdtoMYpNaRhBk2E9")
 					.then(function(returned_data_from_server1){
@@ -48,9 +70,10 @@ mainModule.factory('defaultFactory', function($http) {
 						// console.log("Server responded with: ", returned_data_from_server2);
 						weather = returned_data_from_server2.data.weather[0].main;
 						wDescript = returned_data_from_server2.data.weather[0].description;
-						console.log(title + "\n" +image + "\n" +price + "\n" +detail + "\n" +weather + "\n" +wDescript + "\n");
+
 					});
 				});
+				console.log(title + "\n" +image + "\n" +price + "\n" +detail + "\n" +weather + "\n" +wDescript + "\n");
 			}
 		});
 	}

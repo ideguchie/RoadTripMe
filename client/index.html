@@ -167,10 +167,25 @@ a {
 .inputLabel {
 	font-size: 150%;
 }
+.mapHeader {
+	color: #FFFFFF;
+	/*background-color:hsla(76,100%,39%,0.95);*/
+	background-color:rgba(255,203,0,1.00);
+	height: 25px;
+	border-bottom: 5px solid rgba(0,53,95,1.00);
+	position: relative;
+}
+.mapTitle {
+	font-family:"Arial", Helvetica, sans-serif;
+	font-weight:bold;
+	color:rgba(0,53,95,1.00);
+	position: absolute;
+	margin: 3px 0 0 10px;
+}
 	</style>
 
 
-	<title>INDEX</title>
+	<title>RoadTripMe!</title>
 </head>
 <body>
 
@@ -180,6 +195,9 @@ a {
 		</div>
 
 		<div ng-controller="mapController">
+			<div class="mapHeader">
+				<h5 class="mapTitle">RoadTripMe!</h5>
+			</div>
 			 <div id="map"></div>
 
 			<div id="searchController" ng-controller="searchController">
@@ -194,11 +212,11 @@ a {
 						<div class="col-md-6">
 						  <div class="form-group">
 						    <label class="inputLabel" for="exampleInputEmail1">Start Location</label>
-						    <input type="Text" ng-model="trip.start" class="form-control" id="exampleInputEmail1" placeholder="Start" required>
+						    <input type="Text" ng-model="trip.start" class="form-control" id="exampleInputEmail1" placeholder="(i.e. University of Washington, Seattle, WA)" required>
 						  </div>
 						  <div class="form-group">
 						    <label class="inputLabel" for="exampleInputPassword1">End Location</label>
-						    <input type="text" ng-model="trip.end" class="form-control" id="exampleInputPassword1" placeholder="End" required>
+						    <input type="text" ng-model="trip.end" class="form-control" id="exampleInputPassword1" placeholder="(i.e. Moda Center, Portland, OR)" required>
 						  </div>
 						</div>
 						<div class="col-md-6">
@@ -240,8 +258,10 @@ a {
 							</div>
 							<div class="back">
 								{{ act.detail }}
+								<br>
+								<br>
+								Clouds - Partially Cloudy, 56 F
 							</div>
-
 						</div>
 					</div>
 					<br><br>

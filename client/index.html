@@ -30,9 +30,11 @@ a {
     text-decoration: none;
   }
 #map{
-    height:500px;
-    width:500px;
-    box-shadow: 3px 3px 10px gray;
+    height: 100vh;
+    width: 100%;
+    /*box-shadow: 3px 3px 10px gray;*/
+    position: fixed !important;
+    z-index: 0;
     }
 #repeat{
      display: inline;
@@ -60,90 +62,143 @@ a {
 #names {
      cursor: pointer;
        }
+#searchController, #activityController {
+	margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+	z-index: 1000;
+	background-color: rgba(0,0,0,0.4);
+}
+
+#searchController .container, #activityController .container {
+	background-color: white;
+	border-radius: 10px;
+	padding: 10px;
+	margin-top: 1em;
+}
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000;
+}
+	/* flip the pane when hovered */
+	.flip-container:hover .flipper, .flip-container.hover .flipper {
+		transform: rotateY(180deg);
+	}
+
+.flip-container, .front, .back {
+	width: 150px;
+	height: 150px;
+	border: 1px solid;
+	background-size: cover;
+	display: inline-block;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+}
+
+.picked {
+	background-color: rgba(255,0,0,0.4);
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+}
 	</style>
 
 
 	<title>INDEX</title>
 </head>
 <body>
-	<h1>Index.HTML</h1>
 	<div ng-app="mainModule">
-		<a href="#/">defualt Partial</a>
-		<a href="#/secondPartial">second default Partial</a>
-
 		<div ng-controller="defaultController">
-			<h3>{{test}}</h3>
-			<li ng-repeat="user in users">{{user.name}}</li>
-			<div ng-view></div>
-
-			<flip flip-width="150px" flip-height="150px" ng-repeat="point in result">
-					<flip-panel>
-						<img style="width:150px; height:200px" src="http://{{ point.image }}"/>
-					</flip-panel>
-					<flip-panel>
-						<img style="width:100%; height:100%" src="http://upload.wikimedia.org/wikipedia/commons/7/7c/Ostrich%2C_mouth_open.jpg"/>
-					</flip-panel>
-				</flip>
-		</div>
-
-		<div ng-controller="searchController">
-			<div class="container">
-				<form>
-					<div class="col-md-6">
-					  <div class="form-group">
-					    <label for="exampleInputEmail1">Start Location</label>
-					    <input type="Text" class="form-control" id="exampleInputEmail1" placeholder="Email">
-					  </div>
-					  <div class="form-group">
-					    <label for="exampleInputPassword1">End Location</label>
-					    <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Password">
-					  </div>
-					</div>
-					<div class="col-md-6">
-						<div class="form-group">
-						    <label for="exampleInputEmail1">Start Date</label>
-						     <p class="input-group">
-				              <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup1.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" />
-				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-				              </span>
-				            </p>
-						  </div>
-						  <div class="form-group">
-						    <label for="exampleInputPassword1">End Date</label>
-						    <p class="input-group">
-				              <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
-				              <span class="input-group-btn">
-				                <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
-				              </span>
-				            </p>
-						  </div>
-					</div>
-				  <button type="submit" class="btn btn-default">Submit</button>
-				</form>
-			</div>
-		</div>
-
-		<div ng-controller="activityController">
-			<div class="container">
-				<h2>Choose your activity</h2>
-				<flip flip-width="150px" flip-height="150px">
-			      <flip-panel>
-			        <img style="width:150px; height:200px" src="http://upload.wikimedia.org/wikipedia/commons/0/0d/Northern_Flicker-27527.jpg"/>
-			      </flip-panel>
-			      <flip-panel>
-			        <img style="width:100%; height:100%" src="http://upload.wikimedia.org/wikipedia/commons/7/7c/Ostrich%2C_mouth_open.jpg"/>
-			      </flip-panel>
-			    </flip>
-			</div>
 		</div>
 
 		<div ng-controller="mapController">
 			 <div id="map"></div>
-			    <div id="repeat" ng-repeat="marker in markers | orderBy : 'title'">
-			         <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)">
-			         <label id="names" >{{marker.title}}</label></a>
-			    </div>
+
+			<div id="searchController" ng-controller="searchController">
+				<div class="container">
+					<h1>Welcome to ReadTripMe</h1>
+					<form>
+						<div class="col-md-6">
+						  <div class="form-group">
+						    <label for="exampleInputEmail1">Start Location</label>
+						    <input type="Text" ng-model="trip.start" class="form-control" id="exampleInputEmail1" placeholder="Start" required>
+						  </div>
+						  <div class="form-group">
+						    <label for="exampleInputPassword1">End Location</label>
+						    <input type="text" ng-model="trip.end" class="form-control" id="exampleInputPassword1" placeholder="End" required>
+						  </div>
+						</div>
+						<div class="col-md-6">
+							<div class="form-group">
+							    <label for="exampleInputEmail1">Start Date</label>
+							     <p class="input-group">
+					              <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup1.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close"/>
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+					            </p>
+							  </div>
+							  <div class="form-group">
+							    <label for="exampleInputPassword1">End Date</label>
+							    <p class="input-group">
+					              <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="popup2.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+					              <span class="input-group-btn">
+					                <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+					              </span>
+					            </p>
+							  </div>
+						</div>
+					  <button ng-click="submitTrip(trip)" class="btn btn-default">Submit</button>
+					</form>
+				</div>
+			</div>
+			<div id="activityController" class="hidden" ng-controller="activityController" style="overflow-y: auto">
+				<div class="container">
+					<h2>Please Choose your activity</h2>
+					<div class="flip-container" ontouchstart="this.classList.toggle('hover');" ng-repeat="act in result">
+						<div class="flipper" ng-click="addActivity(act)">
+							<div class="front" style="background-image: url('http://{{ act.image }}')">
+								{{ act.title }}
+								<div class="picked act-{{ act.id }} hidden"></div>
+							</div>
+							<div class="back">
+								Event Description
+							</div>
+						</div>
+					</div>
+					<br><br>
+					<button type="submit" class="btn btn-default">Submit</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </body>

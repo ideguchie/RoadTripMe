@@ -1,4 +1,14 @@
-mainModule.controller('searchController', function($scope, $routeParams, defaultFactory) {
+mainModule.controller('searchController', function( $rootScope, $scope, $routeParams, defaultFactory) {
+  $scope.trip = {};
+
+
+  $scope.submitTrip = function(data) {
+    $("#searchController").addClass('hidden');
+    $("#activityController").removeClass('hidden');
+    $rootScope.$broadcast('getTrip', data);
+    console.log("submitted", data);
+  }
+
 	 $scope.today = function() {
     $scope.dt = new Date();
   };

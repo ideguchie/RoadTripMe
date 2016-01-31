@@ -20,11 +20,11 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 		});
 	}
 
-	var getTrip = function() {
+	var getTrip = function(loc) {
 
-		defaultFactory.getActivity()
+		defaultFactory.getActivity(loc)
 			.then(function(response) {
-				console.log(response);
+				// console.log(response);
 
 				for (var i = 0; i < 10; i++) {
 					var obj = {};
@@ -82,8 +82,9 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 			$scope.result[index].wDescript = response_weather.data.weather[0].description;
 		});
 	}
-
-	getTrip();
+	for(var e = 0; e < $scope.cities.size; e++) {
+		getTrip($scope.cities[e]);
+	}
 
 	// getAllUsers();
 

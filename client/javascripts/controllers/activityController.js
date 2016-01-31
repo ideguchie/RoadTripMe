@@ -2,7 +2,7 @@ mainModule.controller('activityController', function($scope, $routeParams, defau
 	$scope.result = [];
 	$scope.activity = [];
 
-	$scope.$on('pushActivities', function(event, data) { 
+	$scope.$on('pushActivities', function(event, data) {
 		console.log("received", data);
 		$scope.result = data;
 	});
@@ -17,7 +17,7 @@ mainModule.controller('activityController', function($scope, $routeParams, defau
 				$scope.activity.splice($scope.activity.indexOf(data), 1);
 			}
 		} else {
-			alert("Cannot pick more than 8 locations!");
+			alert("You'll never get there at that rate! Please choose 8 locations or less.");
 		}
 	}
 

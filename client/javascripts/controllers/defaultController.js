@@ -28,20 +28,30 @@ mainModule.controller('defaultController', function($rootScope, $scope, $routePa
 			.then(function(response) {
 				// console.log(response);
 
-				for (var i = 0; i < 10; i++) {
-					var obj = {};
-					activity = response.data.activities[i];
-					// id = returned_data_from_server.activities[0].id;
-					// console.log(id);
+				for (var i = 0; i < response.data.activities.length; i++) {
+					if (i % 2 == 0) {
+						var obj = {};
+						var duplicate = false;
+						activity = response.data.activities[i];
 
-					obj.id = activity.id;
-					obj.title = activity.title;
-					obj.image = activity.imageUrl;
-					obj.price = activity.fromPrice;
-					obj.detail = '';
-					obj.city = loc;
+						for (var j = 0; j < $scope.result.length; j++) {
+							if (activity.id == $scope.result[j].id) {
+								duplicate = true;
+							}
+						}
+						// Should we loop through $scope.result to see if id already there?
 
-					$scope.result.push(obj);
+						if (!duplicate) {
+							obj.id = activity.id;
+							obj.title = activity.title;
+							obj.image = activity.imageUrl;
+							obj.price = activity.fromPrice;
+							obj.detail = '';
+							obj.city = loc;
+
+							$scope.result.push(obj);
+						}
+					}
 				}
 
 				// Define the initial promise
@@ -86,7 +96,7 @@ mainModule.controller('defaultController', function($rootScope, $scope, $routePa
 		});
 	}
 
-	var newarr = ["Seattle, WA", "Olympia, WA", "Portland, OR"];
+	// var newarr = ["Seattle, WA", "Olympia, WA", "Portland, OR"];
 
 	var getRouteData = function(arr) {
 		// Define the initial promise
@@ -95,7 +105,7 @@ mainModule.controller('defaultController', function($rootScope, $scope, $routePa
 		sequence2 = sequence2.promise;
 		// console.log(arr);
 		angular.forEach(arr, function(val,key){
-				if(key % 20 == 0) {
+				if(key % 10 == 0) {
 				sequence2 = sequence2.then(function() {
 						return getCities(val);
 				});
@@ -162,20 +172,20 @@ mainModule.controller('defaultController', function($rootScope, $scope, $routePa
 			);
 	}
 
-	var fakeFinal = [
-		{
-			location: "47.6062095,-122.3320708",
-			stopover: true
-		},
-		{
-			location: "45.5230622,-122.6764816",
-			stopover: true
-		},
-		{
-			location: "45.6698392,-121.8906354",
-			stopover: true
-		}
-	];
+	// var fakeFinal = [
+	// 	{
+	// 		location: "47.6062095,-122.3320708",
+	// 		stopover: true
+	// 	},
+	// 	{
+	// 		location: "45.5230622,-122.6764816",
+	// 		stopover: true
+	// 	},
+	// 	{
+	// 		location: "45.6698392,-121.8906354",
+	// 		stopover: true
+	// 	}
+	// ];
 
 	var getFinalRoute = function(userChoices) {
 		console.log("Controller - getFinalRoute");
@@ -215,10 +225,10 @@ mainModule.controller('defaultController', function($rootScope, $scope, $routePa
 	}
 
 	// getFinalRoute(fakeFinal);
-	$scope.$on('getTrip', function(event, data) { 
+	$scope.$on('getTrip', function(event, data) {
 		console.log("received", data);
 		getRoute(data);
-		
+
 		setTimeout(function() {
 			console.log("cities", $scope.cities);
 			for(var e = 0; e < $scope.cities.length; e++) {

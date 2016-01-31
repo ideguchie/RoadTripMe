@@ -1,4 +1,4 @@
-mainModule.controller('activityController', function($scope, $routeParams, defaultFactory) {
+mainModule.controller('activityController', function($rootScope, $scope, $routeParams, defaultFactory) {
 	$scope.result = [];
 	$scope.activity = [];
 
@@ -7,8 +7,13 @@ mainModule.controller('activityController', function($scope, $routeParams, defau
 		$scope.result = data;
 	});
 
+	$scope.submitActivity = function() {
+		$("#activityController").addClass('hidden');
+		$rootScope.$broadcast('findPath', $scope.activity);
+	}
+
 	$scope.addActivity = function(data) {
-		if($scope.activity.length <= 8) {
+		if($scope.activity.length < 8) {
 			if($scope.activity.indexOf(data) == -1) {
 				$(".act-" + data.id).removeClass('hidden');
 				$scope.activity.push(data);

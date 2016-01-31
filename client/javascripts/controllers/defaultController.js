@@ -187,42 +187,44 @@ mainModule.controller('defaultController', function($rootScope, $scope, $routePa
 	// 	}
 	// ];
 
-	var getFinalRoute = function(userChoices) {
-		console.log("Controller - getFinalRoute");
 
-	  var directionsService = new google.maps.DirectionsService;
-	  var directionsDisplay = new google.maps.DirectionsRenderer;
+	/*========= METHOD MOVED TO mapController ====================*/
+	// var getFinalRoute = function(userChoices) {
+	// 	console.log("Controller - getFinalRoute");
 
-		var waypoints = [];
-		for(var y in userChoices) {
-			// console.log(userChoices[y]);
-			if(userChoices[y].latlng && y % 8 == 0) {
-				var waypoint = {
-					location : userChoices[y].latlng[0] + "," + userChoices[y].latlng[1],
-					stopover: true
-				}
-				waypoints.push(waypoint);
-			}
+	//   var directionsService = new google.maps.DirectionsService;
+	//   var directionsDisplay = new google.maps.DirectionsRenderer;
 
-		}
+	// 	var waypoints = [];
+	// 	for(var y in userChoices) {
+	// 		// console.log(userChoices[y]);
+	// 		if(userChoices[y].latlng && y % 8 == 0) {
+	// 			var waypoint = {
+	// 				location : userChoices[y].latlng[0] + "," + userChoices[y].latlng[1],
+	// 				stopover: true
+	// 			}
+	// 			waypoints.push(waypoint);
+	// 		}
 
-	  directionsService.route({
-	    origin: "seattle, wa, usa",
-	    destination: "portland, or, usa",
-			waypoints: waypoints,
-    	optimizeWaypoints: true,
-	    travelMode: google.maps.TravelMode.DRIVING
-	  }, function(response, status) {
-	    if (status === google.maps.DirectionsStatus.OK) {
-	      directionsDisplay.setDirections(response);
-				console.log(response);
-				// Display route
-				// console.log(response.routes[0].overview_path);
-	    } else {
-	      window.alert('Directions request failed due to ' + status);
-	    }
-	  });
-	}
+	// 	}
+
+	//   directionsService.route({
+	//     origin: "seattle, wa, usa",
+	//     destination: "portland, or, usa",
+	// 		waypoints: waypoints,
+ //    	optimizeWaypoints: true,
+	//     travelMode: google.maps.TravelMode.DRIVING
+	//   }, function(response, status) {
+	//     if (status === google.maps.DirectionsStatus.OK) {
+	//       	directionsDisplay.setDirections(response);
+	// 		console.log(response);
+	// 			// Display route
+	// 			// console.log(response.routes[0].overview_path);
+	//     } else {
+	//       window.alert('Directions request failed due to ' + status);
+	//     }
+	//   });
+	// }
 
 	// getFinalRoute(fakeFinal);
 	$scope.$on('getTrip', function(event, data) {
@@ -236,11 +238,6 @@ mainModule.controller('defaultController', function($rootScope, $scope, $routePa
 			}
 		}, 5000);
 	});
-
-	// setTimeout(function() {
-	// 	console.log($scope.result);
-	// 	getFinalRoute($scope.result);
-	// }, 10000);
 
 	$scope.$watch('result', function () {
 		console.log('pushing', $scope.result);

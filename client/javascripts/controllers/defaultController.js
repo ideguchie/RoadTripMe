@@ -9,9 +9,9 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	var lat = "";
 	var lon = "";
 	var activity = [];
-	$scope.mega = [];
 	$scope.result = [];
 	$scope.cities = [];
+	$scope.cities_promise = [];
 
 	var getAllUsers = function(){
 		// console.log("Controller - getAllUsers");
@@ -84,8 +84,6 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 			$scope.result[index].weather = response_weather.data.weather[0].main;
 			$scope.result[index].wDescript = response_weather.data.weather[0].description;
 		});
-		$scope.mega.push($scope.result);
-		// console.log($scope.mega);
 	}
 
 	var newarr = ["Seattle, WA", "Olympia, WA", "Portland, OR"];
@@ -94,7 +92,7 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	// }
 	// getAllUsers();
 
-	getTrip(newarr[2]);
+	// getTrip(newarr[2]);
 
 	// getTrip(newarr[1]);
 	// getTrip(newarr[2]);
@@ -106,7 +104,6 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 		var sequence2 = $q.defer();
 		sequence2.resolve();
 		sequence2 = sequence2.promise;
-
 		// console.log(arr);
 		angular.forEach(arr, function(val,key){
 				if(key % 20 == 0) {
@@ -115,19 +112,21 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 				});
 			}
 		});
-
-		// for (var key = 0; key < arr.length; key += 20) {
-		// 	// console.log("value", arr[key], key, arr.length);
-		// 	sequence2 = sequence2.then(function() {
-		// 			console.log(key, arr.length);
-		// 		  // if (key < arr.length) {
-		// 				console.log("running");
-		// 				return getCities(arr[key]);
-		// 			// }
-		// 	});
-		// }
-
 	}
+
+	setTimeout(function() {
+		console.log($scope.cities);
+		for(var e = 0; e < $scope.cities.length; e++) {
+			getTrip($scope.cities[e]);
+		}
+	}, 5000);
+
+	setTimeout(function() {
+		console.log($scope.result);
+
+		getFinalRoute($scope.result);
+	}, 10000);
+
 
 	var getRoute = function() {
 		console.log("Controller - getRoute");
@@ -194,8 +193,6 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 		// console.log("Cities array: ");
 	}
 
-	getRoute();
-
 	var fakeFinal = [
 		{
 			location: "47.6062095,-122.3320708",
@@ -217,10 +214,23 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	  var directionsService = new google.maps.DirectionsService;
 	  var directionsDisplay = new google.maps.DirectionsRenderer;
 
+		var waypoints = [];
+		for(var y in userChoices) {
+			// console.log(userChoices[y]);
+			if(userChoices[y].latlng && y % 8 == 0) {
+				var waypoint = {
+					location : userChoices[y].latlng[0] + "," + userChoices[y].latlng[1],
+					stopover: true
+				}
+				waypoints.push(waypoint);
+			}
+
+		}
+
 	  directionsService.route({
 	    origin: "seattle, wa, usa",
 	    destination: "portland, or, usa",
-			waypoints: userChoices,
+			waypoints: waypoints,
     	optimizeWaypoints: true,
 	    travelMode: google.maps.TravelMode.DRIVING
 	  }, function(response, status) {
@@ -235,7 +245,8 @@ mainModule.controller('defaultController', function($scope, $routeParams, defaul
 	  });
 	}
 
-	getFinalRoute(fakeFinal);
+	getRoute();
+	// getFinalRoute(fakeFinal);
 
 });
 
